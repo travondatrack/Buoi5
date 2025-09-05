@@ -1,0 +1,88 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11pt;
+  margin-left: 2em;
+  margin-right: 2em;
+}
+
+h1 {
+  color: teal;
+  margin-bottom: 0.2em;
+}
+
+h2 {
+  color: teal;
+  font-size: 1.1em;
+  margin-top: 1.5em;
+  margin-bottom: 0.6em;
+}
+
+/* label cho text/email/date/select */
+.form-label {
+  float: left;
+  width: 10em;
+  margin-bottom: 0.5em;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="date"],
+select {
+  width: 15em;
+  margin-left: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  margin-right: 0.4em;
+}
+
+br {
+  clear: both;
+}
+
+#submit {
+  margin-left: 10.5em; /* thẳng hàng với input/select */
+  padding: 0.3em 1em;
+}
+
+/* Tăng khoảng cách cho hàng “Please contact me by:” */
+label[for="contact"] {
+  display: inline-block;
+  margin-top: 1.2em; /* khoảng cách với phần trên */
+  margin-bottom: 0.4em; /* khoảng cách với select */
+}
+
+#contact {
+  margin-bottom: 1.2em; /* khoảng cách với nút Submit */
+}
+
+footer {
+  margin-top: 2em;
+  padding-top: 1em;
+  border-top: 1px solid #ccc;
+  color: #666;
+  font-size: 10pt;
+}
+
+footer p {
+  margin: 0;
+}
+
+/* Styling for survey results page */
+.survey-results label {
+  display: inline-block;
+  width: 8em;
+  font-weight: bold;
+  margin-right: 1em;
+  text-align: left;
+}
+
+.survey-results span {
+  display: inline-block;
+}
+
+.survey-results br {
+  line-height: 1.8;
+}
