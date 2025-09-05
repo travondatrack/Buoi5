@@ -1,0 +1,48 @@
+# Render-optimized Dockerfile
+FROM maven:3.9.8-eclipse-temurin-21 AS builder
+WORKDIR /app
+
+# Copy pom.xml first for better caching
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
+
+# Copy source code
+COPY src ./src
+
+# Build WAR file
+RUN mvn clean package -DskipTests -B
+
+# Production stage with Tomcat
+FROM tomcat:9-jdk21-openjdk-slim
+
+# Install curl for health checks
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+
+# Remove default webapps
+RUN rm -rf /usr/local/tomcat/webapps/*
+
+# Copy WAR file as ROOT application
+COPY --from=builder /app/target/Baitap2.war /usr/local/tomcat/webapps/ROOT.war
+
+# Configure Tomcat for Render
+ENV CATALINA_OPTS="-Xmx512m -Xms256m"
+
+# Render uses $PORT environment variable
+ENV PORT=8080
+EXPOSE $PORT
+
+# Script to handle Render's dynamic port
+RUN echo '#!/bin/bash\n\
+if [ -n "$PORT" ]; then\n\
+  sed -i "s/8080/$PORT/g" /usr/local/tomcat/conf/server.xml\n\
+fi\n\
+exec catalina.sh run' > /usr/local/tomcat/bin/start.sh
+
+RUN chmod +x /usr/local/tomcat/bin/start.sh
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+  CMD curl -f http://localhost:${PORT:-8080}/ || exit 1
+
+# Start with custom script
+CMD ["/usr/local/tomcat/bin/start.sh"]
