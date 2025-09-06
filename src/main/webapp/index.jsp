@@ -95,7 +95,5 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         style="margin-left: 0; display: inline-block"
       />
     </form>
-
-    <%@ include file="/includes/footer.jsp" %>
   </body>
 </html>

@@ -25,7 +25,14 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
       <span>${user.lastName}</span><br />
 
       <label>Heard From:</label>
-      <span>${user.heardFrom}</span><br />
+      <span>
+        <c:choose>
+          <c:when test="${user.heardFrom == 'search'}">Search Engine</c:when>
+          <c:when test="${user.heardFrom == 'word'}">Word of mouth</c:when>
+          <c:when test="${user.heardFrom == 'social'}">Social Media</c:when>
+          <c:otherwise>Other</c:otherwise>
+        </c:choose> </span
+      ><br />
 
       <label>Updates:</label>
       <span>
@@ -36,16 +43,16 @@ uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
       ><br />
 
       <c:if test="${user.wantsUpdates}">
-        <label>Contact Via:</label>
+        <label>Contact via:</label>
         <span>
           <c:choose>
             <c:when test="${user.contact == 'either'}">Email</c:when>
-            <c:otherwise>${user.contact}</c:otherwise>
+            <c:when test="${user.contact == 'email'}">Email</c:when>
+            <c:when test="${user.contact == 'postal'}">Postal mail</c:when>
+            <c:otherwise>Email</c:otherwise>
           </c:choose> </span
         ><br />
       </c:if>
     </div>
-
-    <%@ include file="/includes/footer.jsp" %>
   </body>
 </html>
